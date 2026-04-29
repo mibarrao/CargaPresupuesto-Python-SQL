@@ -17,7 +17,7 @@ CREATE TABLE [ESTUDIOSCOMERCIALES].dbo.MATRIZ (
 */
 
 
--- 1. CREACIÓN DE TABLA (Mantenemos tu estructura)
+-- 1. CREACIÃ“N DE TABLA (Mantenemos tu estructura)
 IF OBJECT_ID('[ESTUDIOSCOMERCIALES].dbo.MATRIZPASO', 'U') IS NOT NULL 
     DROP TABLE [ESTUDIOSCOMERCIALES].dbo.MATRIZPASO;
 
@@ -40,7 +40,7 @@ DECLARE @TableName NVARCHAR(255), @IndicadorGrupo NVARCHAR(100), @Indicador NVAR
 DECLARE @Sql NVARCHAR(MAX), @SegmentoSql NVARCHAR(MAX), @FiltroSql NVARCHAR(MAX), @FiltroFinal NVARCHAR(MAX)
 DECLARE @SubsegmentoActual NVARCHAR(255), @CursorSubStr NVARCHAR(MAX)
 
--- Limpieza de cursor por si quedó abierto de una ejecución fallida
+-- Limpieza de cursor por si quedÃ³ abierto de una ejecuciÃ³n fallida
 IF CURSOR_STATUS('global','table_cursor') >= -1 BEGIN
     CLOSE table_cursor DEALLOCATE table_cursor
 END
@@ -62,11 +62,11 @@ FETCH NEXT FROM table_cursor INTO @TableName, @IndicadorGrupo
 
 WHILE @@FETCH_STATUS = 0
 BEGIN
-    -- Inicialización de filtros por tabla
+    -- InicializaciÃ³n de filtros por tabla
     SET @SegmentoSql = ' '''' AS SEGMENTO, ' 
     SET @FiltroSql = '' 
 
-    /************ CONFIGURACIÓN POR TABLA ***************/
+    /************ CONFIGURACIÃ“N POR TABLA ***************/
     IF @TableName = 'venta_neta' BEGIN
         SET @SegmentoSql ='CASE   
             WHEN SUBSEGMENTO IN (''FFAA'',''P20'',''P15'',''P5'',''PBS'') THEN ''P''
@@ -169,7 +169,7 @@ BEGIN
 
     WHILE @@FETCH_STATUS = 0
     BEGIN
-        -- LÓGICA INTELIGENTE DE FILTRO (EVITA ERROR DE 'AND' HUÉRFANO)
+        -- LÃ“GICA INTELIGENTE DE FILTRO (EVITA ERROR DE 'AND' HUÃ‰RFANO)
         -- Si ya hay un WHERE, usa AND. Si no, usa WHERE.
         DECLARE @Conector NVARCHAR(10) = CASE WHEN @FiltroSql LIKE '%WHERE%' THEN ' AND ' ELSE ' WHERE ' END
         SET @FiltroFinal = ISNULL(@FiltroSql, '') + @Conector + ' SUBSEGMENTO = ''' + @SubsegmentoActual + ''' '
@@ -237,7 +237,7 @@ BEGIN
         END
 		ELSE IF @TableName = 'gasto_provisiones' BEGIN
             SET @Indicador = '(CASE 
-				WHEN ID IN (1,2,3,4,5,6,7) THEN  '' Total Los Héroes (incluye Hipo y Más Salud) - '' + SUBSEGMENTO	
+				WHEN ID IN (1,2,3,4,5,6,7) THEN  '' Total Los HÃ©roes (incluye Hipo y MÃ¡s Salud) - '' + SUBSEGMENTO	
 				WHEN ID IN (9,10,11,12,13,14,15) THEN (SELECT SUBSEGMENTO FROM ' + QUOTENAME(@TableName) + ' WHERE ID = 8) + '' - '' + SUBSEGMENTO	
 				WHEN ID IN (17,18,19,20,21,22,23) THEN (SELECT SUBSEGMENTO FROM ' + QUOTENAME(@TableName) + ' WHERE ID = 16) + '' - '' + SUBSEGMENTO		
                 ELSE SUBSEGMENTO END)'
@@ -268,7 +268,7 @@ BEGIN
             SET @Indicador = '''' + REPLACE(@IndicadorGrupo, '''', '''''') + ''''
         END
 
-        -- CONSTRUCCIÓN DEL SQL FINAL
+        -- CONSTRUCCIÃ“N DEL SQL FINAL
         SET @Sql = '
         INSERT INTO [ESTUDIOSCOMERCIALES].dbo.MATRIZPASO
             (FECHA, INDICADORGRUPO, INDICADOR, ID_CAJA_ORIGEN, SEGMENTO, SUBSEGMENTO, VALOR, VERSION, FECHA_CARGA)
