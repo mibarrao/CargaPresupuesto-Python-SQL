@@ -8,7 +8,7 @@ import re
 from datetime import datetime
 
 # --- CONFIGURACION ---
-# Asegurate de que la ruta sea accesible desde tu equipo Lenovo
+# Asegurate de que la ruta sea accesible
 ruta_excel = r'C:\Users\mibarra\Downloads\Ingresos 2026 Ppto.xlsx'
 servidor = r'LH-GESTIONDOS2'
 base_datos = 'ESTUDIOSCOMERCIALES'
@@ -36,7 +36,7 @@ def limpiar_nombre_tabla(nombre):
     return nombre
 
 # --- PROCESO DE CARGA ---
-print("Iniciando proceso de carga con mapeo de columnas estricto...")
+print("Iniciando proceso de carga con mapeo de columnas")
 try:
     excel_file = pd.ExcelFile(ruta_excel)
     registro_comparativo = []
